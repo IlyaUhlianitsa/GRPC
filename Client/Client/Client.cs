@@ -1,22 +1,26 @@
 using System;
+using System.Threading.Tasks;
 using Grpc.Core;
-using Unity;
 
 namespace Client
 {
     public class Client
     {
-        [Dependency]
-        public AccountService.AccountServiceClient AccountServiceClient { get; set; }
-        
-        [Dependency]
-        public Channel Channel { get; set; }
-        
-        public void Listen()
+        private readonly AccountService.AccountServiceClient _accountServiceClient;
+        private readonly Channel _channel;
+
+        public Client(AccountService.AccountServiceClient accountServiceClient,
+            Channel channel)
+        {
+            _accountServiceClient = accountServiceClient;
+            _channel = channel;
+        }
+
+        public async Task Start()
         {
             try
             {
-                EmployeeName empName = AccountServiceClient.GetEmployeeName(new EmployeeNameRequest { EmpId = "1" });
+                EmployeeName empName = _accountServiceClient.GetEmployeeName(new EmployeeNameRequest { EmpId = "1" });
 
                 if (empName == null || string.IsNullOrWhiteSpace(empName.FirstName) || string.IsNullOrWhiteSpace(empName.LastName))
                 {
@@ -26,15 +30,15 @@ namespace Client
                 {
                     Console.WriteLine($"The employee name is {empName.FirstName} {empName.LastName}.");
                 }
-
-                Channel.ShutdownAsync().Wait();
-                Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception encountered: {ex}");
             }
+        }
+        public async Task Stop()
+        {
+            await _channel.ShutdownAsync();
         }
     }
 }
