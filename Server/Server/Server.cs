@@ -16,7 +16,7 @@ namespace grpc_test
                 _grpcServer = new Grpc.Core.Server
                 {
                     Services = { AccountService.BindService(new AccountsImpl()) },
-                    Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
+                    Ports = { new ServerPort("server", Port, ServerCredentials.Insecure) }
                 };
                 _grpcServer.Start();
 

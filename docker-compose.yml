@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  server:
+    build: 
+      dockerfile: ./Server/Dockerfile
+      context: ./Server
+    image: server
+    expose:
+      - "50051"
+    ports: 
+      - "9988:50051"
+  client:
+    build: 
+      dockerfile: ./Client/Dockerfile
+      context: ./Client
+    image: client
+    depends_on:
+      - server
