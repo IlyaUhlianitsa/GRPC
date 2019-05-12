@@ -2,6 +2,9 @@
   "profiles": {
     "Server": {
       "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
     }
   }
 }
