@@ -12,7 +12,7 @@ namespace Client
             var host = new HostBuilder()
                 .ConfigureServices((context, services) =>
                 {
-                    services.AddScoped(provider => new Channel("127.0.0.1:50051", ChannelCredentials.Insecure));
+                    services.AddScoped(provider => new Channel("server:50051", ChannelCredentials.Insecure));
                     services.AddScoped<AccountService.AccountServiceClient>();
                     services.AddScoped<Client>();
                     services.AddHostedService<HostedService>();
